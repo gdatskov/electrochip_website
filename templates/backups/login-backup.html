@@ -1,0 +1,39 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- login section -->
+<section class="contact_section layout_padding2-top layout_padding2-bottom" style="background-color: #f4f1fc;">
+    <div class="container">
+        <div class="heading_container">
+            <h2>
+                Login
+            </h2>
+            <img src="{% static "images/plug.png" %}" alt="">
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <form action="{% url 'login' %}" method="post" class="login-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>
+                            <input type="text" name="username" placeholder="Username" class="form-input" style="background-color: #eae6f5;" required>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" placeholder="Password" class="form-input" style="background-color: #eae6f5;" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            Login
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end login section -->
+{% endblock %}

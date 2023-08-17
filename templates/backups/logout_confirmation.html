@@ -1,0 +1,38 @@
+<!-- logout_confirmation.html -->
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Logout confirmation section -->
+    <section class="contact_section layout_padding2-top layout_padding2-bottom" style="background-color: #f4f1fc;">
+        <div class="container">
+            <div class="heading_container">
+                <h2>
+                    Logout
+                </h2>
+                <img src="{% static "images/plug.png" %}" alt="">
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <p>Are you sure you want to log out?</p>
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <div style="display: flex; gap: 40px; justify-content: left;">
+                            <a href="{% url 'logout' %}" class="btn custom-button"
+                               style="font-size: 1.2em; padding: 5px 20px; min-width: 120px; background-color: #4b208c; border-radius: 0; color: white">
+                                Yes
+                            </a>
+                            <a href="{% url 'index' %}" class="btn custom-button"
+                               style="font-size: 1.2em; padding: 5px 20px; min-width: 120px; background-color: #4b208c; border-radius: 0; color: white">
+                                No
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End logout confirmation section -->
+{% endblock %}

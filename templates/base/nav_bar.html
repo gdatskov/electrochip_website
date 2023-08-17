@@ -1,0 +1,67 @@
+{% load static %}
+<header class="header_section">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img src='{% static "images/logo.png" %}' alt="">
+                <span>
+                    Electrochip
+                </span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="s-1"> </span>
+                <span class="s-2"> </span>
+                <span class="s-3"> </span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}">Home </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'anchor_redirect' section='services' %}">Services</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'anchor_redirect' section='about' %}">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'anchor_redirect' section='blog' %}">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'anchor_redirect' section='contact' %}">Contact</a>
+                        </li>
+
+                        {% if not request.user.is_authenticated %}
+                            {# TODO: Register... Note: class="nav-item active" #}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'register' %}">Register </a>
+                            </li>
+                            {# TODO: Login... Note: class="nav-item active" #}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'login' %}">Login <span
+                                        class="sr-only">(current)</span></a>
+                            </li>
+                        {% else %}
+                            {# TODO: Profile... Note: class="nav-item active" #}
+                            <li class="nav-item active">
+{#                            TODO: SLUG OR PK#}
+{#                                <a class="nav-link" href="{% url 'profile' user.pk %}">Profile</a>#}
+                                <a class="nav-link" href="{% url 'profile' slug=request.user.slug %}">Profile</a>
+
+                            </li>
+                            {# TODO: Logout... Note: class="nav-item active" #}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'logout' %}">Logout </a>
+                            </li>
+                        {% endif %}
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>

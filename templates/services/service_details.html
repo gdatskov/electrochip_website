@@ -1,0 +1,28 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Service details section -->
+    <section class="service-details layout_padding2-top layout_padding2-bottom about_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="service-details-info">
+                        <h3>{{ object.name }}</h3>
+                        <p>{{ object.short_description }}</p>
+                        <p><strong>Category:</strong> {{ object.category.name }}</p>
+                        <p><strong>Owner:</strong> {{ object.owner.username }}</p>
+                        <div class="img-container">
+                            <div class="img-box">
+                                <a href="{{ object.picture }}" target="_blank">
+                                    <img src="{{ object.picture }}" alt="Service Image" class="service-image">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End service details section -->
+{% endblock %}

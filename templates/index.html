@@ -1,0 +1,88 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+    <!-- slider section -->
+    <section class=" slider_section about_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 ">
+                    <div class="detail_box">
+                        <h1>
+                            {# TODO: Rename when got the idea for the website#}
+                            Your local <br>
+                            Electrical <br>
+                            Service <br>
+                            Providers
+                        </h1>
+                        {# TODO: Replace such text with Chat-GPT API random text#}
+                        <p>
+                            It is a long established fact that a reader will be distracted by the readable content of a
+                            page when looking at its layout. The point of using Lorem
+                        </p>
+                        <a href="{% url 'contact' %}" class="">
+                            Contact Us
+                        </a>
+                    </div>
+                </div>
+                {#                TODO: Image carousel#}
+                {#                TODO: Idea: put 5 random images.#}
+                {#                TODO: Idea: maybe replace some of the random images with actual ones from some db#}
+                <div class="col-lg-5 col-md-6 offset-lg-1">
+                    <div class="img_content">
+                        <div class="img_container">
+                            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <div class="img-box">
+                                            <img src='{% static "images/slider-img.jpg" %}' alt="">
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <div class="img-box">
+                                            <img src='{% static "images/slider-img.jpg" %}' alt="">
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <div class="img-box">
+                                            <img src='{% static "images/slider-img.jpg" %}' alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                           data-slide="prev">
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                           data-slide="next">
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end slider section -->
+
+    <!-- service section -->
+    <a id="services"></a>
+    {% include 'extensions/service_categories_read_more.html' %}
+    <!-- end service section -->
+
+    <!-- about section -->
+    <a id="about"></a>
+    {% include 'extensions/about_read_more.html' %}
+    <!-- end about section -->
+
+    <!-- blog section -->
+    <a id="blog"></a>
+    {% include 'extensions/blog_read_more.html' %}
+    <!-- end blog section -->
+
+    <!-- contact section -->
+    <a id="contact"></a>
+    {% include 'base/contact_base.html' %}
+    <!-- end contact section -->
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base/blog_base.html' %}
+
+{% block blog_read_more_button %}
+    <section class="service_section">
+        <div class="container">
+            <div class="btn-box" style="position: absolute; left: 50%;
+            -ms-transform: translate(-50%); transform: translate(-50%);">
+
+                <a href="{% url 'blog' %}">
+                    Read More Articles
+                </a>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}

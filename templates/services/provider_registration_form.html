@@ -1,0 +1,11 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+  <h2>Register as a Company</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+  </form>
+  <a href="{% url 'freelance_registration' %}">Register as a Freelancer Instead</a>
+{% endblock %}

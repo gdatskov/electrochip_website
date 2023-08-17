@@ -1,0 +1,90 @@
+{#{% extends 'base/base.html' %}#}
+{#{% load static %}#}
+{#{% block content %}#}
+{#    <section class="category-services-section">#}
+{#        <div class="container">#}
+{#            <div class="heading_container">#}
+{#                <h2>#}
+{#                    All Services#}
+{#                </h2>#}
+{#            </div>#}
+{#            <form method="GET" action="{% url 'all services' %}">#}
+{#                <div class="search-box">#}
+{#                    <label>#}
+{#                        <input type="text" name="q" placeholder="Search services...">#}
+{#                    </label>#}
+{#                    <button type="submit">Search</button>#}
+{#                </div>#}
+{#            </form>#}
+{#            <div class="services-list">#}
+{#                <ul>#}
+{#                    {% for service in page_services %}#}
+{#                        <li>{{ service.name }}</li>#}
+{#                    {% empty %}#}
+{#                        <li>No services found.</li>#}
+{#                    {% endfor %}#}
+{#                </ul>#}
+{#                <div class="pagination">#}
+{#                    <span class="step-links">#}
+{#                        {% if page_services.has_previous %}#}
+{#                            <a href="?page=1">&laquo; first</a>#}
+{#                            <a href="?page={{ page_services.previous_page_number }}">previous</a>#}
+{#                        {% endif %}#}
+{##}
+{#                        <span class="current">#}
+{#                            Page {{ page_services.number }} of {{ page_services.paginator.num_pages }}.#}
+{#                        </span>#}
+{##}
+{#                        {% if page_services.has_next %}#}
+{#                            <a href="?page={{ page_services.next_page_number }}">next</a>#}
+{#                            <a href="?page={{ page_services.paginator.num_pages }}">last &raquo;</a>#}
+{#                        {% endif %}#}
+{#                    </span>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+{#{% endblock %}#}
+
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+
+<form method="GET" action="{% url 'all_services_list' %}">
+    <div class="search-box">
+        <label>
+            <input type="text" name="q" placeholder="Search services..." value="{{ query|default:'' }}">
+        </label>
+        <button type="submit">Search</button>
+    </div>
+</form>
+
+<div class="services-list">
+    <ul>
+        {% if page_services %}
+            {% for service in page_services %}
+                <li>{{ service.name }}</li>
+            {% empty %}
+                <li>No services found.</li>
+            {% endfor %}
+        {% else %}
+            <li>No services found for your search query "{{ query }}".</li>
+        {% endif %}
+    </ul>
+    <div class="pagination">
+        {% if page_services.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_services.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_services.number }} of {{ page_services.paginator.num_pages }}.
+        </span>
+
+        {% if page_services.has_next %}
+            <a href="?page={{ page_services.next_page_number }}">next</a>
+            <a href="?page={{ page_services.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

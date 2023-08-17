@@ -1,0 +1,28 @@
+{% extends 'base/head.html' %}
+{% load static %}
+
+{% block base %}
+    <body>
+        <div class="hero_area">
+            <!-- header section starts -->
+            {% include 'base/nav_bar.html' %}
+            <!-- end header section -->
+
+            <!-- actual block section -->
+            {% block content %}
+            {% endblock %}
+            <!-- end actual block section -->
+
+            <!-- info section -->
+            {% include 'base/info.html' %}
+            <!-- end info section -->
+
+            <!-- footer section -->
+            {% include 'base/footer.html' %}
+            <!-- end footer section -->
+
+            <script src={% static "js/jquery-3.4.1.min.js" %}></script>
+            <script src={% static "js/bootstrap.js" %}></script>
+        </div>
+    </body>
+{% endblock %}

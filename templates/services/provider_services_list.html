@@ -1,0 +1,28 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+    <section class="provider-services-section">
+        <div class="container">
+            <div class="heading_container">
+                <h2>
+                    Services offered by <strong>{{ provider.get_full_name }}</strong>
+                </h2>
+            </div>
+            <div class="categories-list">
+                <ul>
+                    {% for cat in category %}
+                        <li>
+                            <span class="category-name">{{ cat.name }}</span>
+                            <ul class="service-list">
+                                {% for service in cat.services.all %}
+                                    <li>{{ service.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,103 @@
+{#{% extends 'base/base.html' %}#}
+{#{% load static %}#}
+{##}
+{#{% block content %}#}
+{#<!-- edit profile section -->#}
+{#<section class="contact_section layout_padding2-top layout_padding2-bottom" style="background-color: #f4f1fc;">#}
+{#    <div class="container">#}
+{#        <div class="heading_container">#}
+{#            <h2>#}
+{#                Edit Profile#}
+{#            </h2>#}
+{#            <img src="{% static 'images/plug.png' %}" alt="">#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="container">#}
+{#        <div class="row">#}
+{#            <div class="col-md-6 offset-md-3">#}
+{#                <form method="post" class="edit-profile-form">#}
+{#                    {% csrf_token %}#}
+{#                    {% for field in form %}#}
+{#                        TODO: Change password functionality#}
+{#                    <div class="form-group">#}
+{#                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>#}
+{#                        <input#}
+{#                                type="{{ field.field.widget.input_type }}"#}
+{#                                id="{{ field.id_for_label }}"#}
+{#                                name="{{ field.html_name }}"#}
+{#                                value="{{ field.value }}"#}
+{#                                class="custom-input"#}
+{#                                style="background-color: #eae6f5;"#}
+{#                        >#}
+{#                        {% if field.errors %}#}
+{#                            <div class="error-message">#}
+{#                                {{ field.errors }}#}
+{#                            </div>#}
+{#                        {% endif %}#}
+{#                    </div>#}
+{#                    {% endfor %}#}
+{#                    <div class="form-group">#}
+{#                        <button type="submit" class="btn btn-primary">#}
+{#                            Update Profile#}
+{#                        </button>#}
+{#                        <a href="{% url 'profile' %}" class="btn custom-button"#}
+{#                           style="font-size: 1em; padding: 10px; min-height: 48px; min-width: 150px; background-color: #4b208c; border-radius: 0; color: white; margin-top: 35px; margin-left: 148px">#}
+{#                            Go Back#}
+{#                        </a>#}
+{#                    </div>#}
+{#                </form>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</section>#}
+{#<!-- end edit profile section -->#}
+{#{% endblock %}#}
+
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- edit profile section -->
+<section class="contact_section layout_padding2-top layout_padding2-bottom" style="background-color: #f4f1fc;">
+    <div class="container">
+        <div class="heading_container">
+            <h2>
+                Edit Profile
+            </h2>
+            <img src="{% static 'images/plug.png' %}" alt="">
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <form method="post" class="edit-profile-form">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        {% if field.name != 'password' or form.data.password %}
+                        <div class="form-group">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            <input type="{{ field.field.widget.input_type }}" id="{{ field.id_for_label }}" name="{{ field.html_name }}" value="{{ field.value|default_if_none:'' }}" class="custom-input" style="background-color: #eae6f5;">
+                            {% if field.errors %}
+                                <div class="error-message">
+                                    {{ field.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            Update Profile
+                        </button>
+                        <a href="{% url 'profile' slug=request.user.slug %}" class="btn custom-button"
+                           style="font-size: 1em; padding: 10px; min-height: 48px; min-width: 150px; background-color: #4b208c; border-radius: 0; color: white; margin-top: 35px; margin-left: 148px">
+                            Go Back
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end edit profile section -->
+{% endblock %}

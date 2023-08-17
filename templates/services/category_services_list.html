@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+    <form method="GET" action="">
+        <div class="search-box">
+            <label>
+                <input type="text" name="q" placeholder="Search services..." value="{{ query|default:'' }}">
+            </label>
+            <input type="hidden" name="category" value="{{ selected_category|default:'' }}">
+            <button type="submit">Search</button>
+        </div>
+    </form>
+
+    <form method="GET" action="">
+        <div class="category-filter">
+            <label for="category">Search in category:</label>
+            <select name="category" id="category" onchange="this.form.submit()">
+                <option value="">All Categories</option>
+                {% for cat in all_categories %}
+                    <option value="{{ cat.pk }}" {% if selected_category == cat.pk %}selected{% endif %}>{{ cat.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+
+    <div class="services-list">
+        <ul>
+            {% for service in page_services %}
+                <li>{{ service.name }}</li>
+            {% empty %}
+                <li>No services found.</li>
+            {% endfor %}
+        </ul>
+        <div class="pagination">
+            <!-- Pagination links here -->
+        </div>
+    </div>
+{% endblock %}

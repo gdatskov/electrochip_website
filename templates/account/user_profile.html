@@ -1,0 +1,78 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- profile section -->
+<section class="profile_section layout_padding2-top layout_padding2-bottom about_section"
+         style="background-color: #f4f1fc;">
+    <div class="container">
+        <div class="heading_container">
+            <h2>
+                User Profile
+            </h2>
+            <img src="{% static 'images/plug.png' %}" alt="">
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="profile-info">
+                    <h3 style="margin-left: 20px"><strong>{{ object.username }}</strong></h3>
+                    <div class="img_container">
+                        <div class="img-box b2">
+                            <img src="{% static 'images/default_profile_picture.jpg' %}" alt="No Picture">
+                        </div>
+                    </div>
+                    <div class="profile-info">
+                        <h4 style="margin-left: 20px"><strong>{{ object.full_name }}</strong></h4>
+                        {% if user.is_provider %}
+{#                            TODO: Fix parameters#}
+                            <p><strong>Company name:</strong> {{ object.company_name }}</p>
+                            <p><strong>Company e-mail:</strong> {{ object.company_email }}</p>
+                            <p><strong>Company phone:</strong> {{ object.company_phone }}</p>
+                            <p><strong>Company address:</strong> {{ object.company_address }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="button-container" style="margin-top: 100px;">
+                    {% if is_owner %}
+{#                        <a href="{% url 'edit_profile' request.user.slug %}" class="btn custom-button"#}
+                        <a href="{% url 'edit_profile' %}" class="btn custom-button"
+                           style="font-size: 1.2em; padding: 5px 20px; min-width: 120px; background-color: #4b208c; border-radius: 0; color: white; margin-right: 90px;">
+                            Edit Profile
+                        </a>
+                    {% endif %}
+                    {#                    TODO: edit services after redirect to provider services (if_owner)#}
+                    {% if user.is_provider %}
+                        <a href="{% url 'provider services' pk=user.pk %}" class="btn custom-button"
+                           style="font-size: 1.2em; padding: 5px 20px; min-width: 120px; background-color: #4b208c; border-radius: 0; color: white;">
+                            View Services
+                        </a>
+                    {% else %}
+                        {#                            TODO: Provider dataset and logic#}
+                        <a href="{% url 'freelance_registration' %}" class="btn custom-button"
+                           style="font-size: 1.2em; padding: 5px 20px; min-width: 120px; background-color: #4b208c; border-radius: 0; color: white;">
+                            Become a service provider
+                        </a>
+                    {% endif %}
+                </div>
+                {#                TODO: Provider comments#}
+                {#                    <div class="profile-reviews">#}
+                {#                        <h3>Reviews</h3>#}
+                {#                        <div class="review">#}
+                {#                            <p>Great experience! Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>#}
+                {#                            <p>Rating: 5/5</p>#}
+                {#                        </div>#}
+                {#                        <div class="review">#}
+                {#                            <p>Very satisfied with the service. Highly recommended.</p>#}
+                {#                            <p>Rating: 4.5/5</p>#}
+                {#                        </div>#}
+                {#                        <!-- Add more reviews here if needed -->#}
+                {#                    </div>#}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- end profile section -->
+{% endblock %}

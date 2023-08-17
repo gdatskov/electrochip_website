@@ -1,0 +1,53 @@
+{#{% extends 'base/base.html' %}#}
+{#{% load static %}#}
+{##}
+{#{% block content %}#}
+{#    <!-- edit profile section -->#}
+{#    <section class="contact_section layout_padding2-top layout_padding2-bottom" style="background-color: #f4f1fc;">#}
+{#        <div class="container">#}
+{#            <div class="heading_container">#}
+{#                <h2>#}
+{#                    Edit Profile#}
+{#                </h2>#}
+{#                <img src="{% static 'images/plug.png' %}" alt="">#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="container">#}
+{#            <div class="row">#}
+{#                <div class="col-md-6 offset-md-3">#}
+{#                    <form method="post" class="edit-profile-form">#}
+{#                        {% csrf_token %}#}
+{#                        {{ form.non_field_errors }}#}
+{#                        <div class="form-group">#}
+{#                            <label>First Name:</label>#}
+{#                            {{ form.first_name }}#}
+{#                        </div>#}
+{#                        <div class="form-group">#}
+{#                            <label>Last Name:</label>#}
+{#                            {{ form.last_name }}#}
+{#                        </div>#}
+{#                        <div class="form-group">#}
+{#                            <label>E-mail:</label>#}
+{#                            {{ form.email }}#}
+{#                        </div>#}
+{#                        <div class="form-group">#}
+{#                            <label>Profile picture URL:</label>#}
+{#                            {{ form.profile_picture }}#}
+{#                        </div>#}
+{#                        <div class="form-group">#}
+{#                            <button type="submit" class="btn btn-primary">#}
+{#                                Update Profile#}
+{#                            </button>#}
+{#                            <a href="{% url 'profile' %}" class="btn custom-button"#}
+{#                           style="font-size: 1em; padding: 10px; min-height: 48px; min-width: 150px; background-color: #4b208c; border-radius: 0; color: white; margin-top: 35px; margin-left: 148px">#}
+{#                            Go Back#}
+{#                            </a>#}
+{#                            </button>#}
+{#                        </div>#}
+{#                    </form>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+{#    <!-- end edit profile section -->#}
+{#{% endblock %}#}
