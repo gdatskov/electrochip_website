@@ -13,7 +13,7 @@ from electrochip.services import models as app_models
 UserModel = get_user_model()
 
 
-class AddService(LoginRequiredMixin, RestrictedAccessMixin, generic_views.CreateView):
+class AddServiceView(LoginRequiredMixin, RestrictedAccessMixin, generic_views.CreateView):
     model = app_models.Services
     template_name = 'services/add_service_form.html'
     form_class = AddServiceForm
@@ -41,7 +41,7 @@ class AddService(LoginRequiredMixin, RestrictedAccessMixin, generic_views.Create
         return form
 
 
-class AllCategoriesList(generic_views.ListView):
+class AllCategoriesListView(generic_views.ListView):
     model = app_models.ServicesCategory
     template_name = 'extensions/service_categories.html'
     context_object_name = 'category_list'
@@ -64,7 +64,7 @@ def paginate_services(request, services):
     return page_services
 
 
-def all_services_list(request):
+def all_services_list_view(request):
     query = request.GET.get('q')
     services = app_models.Services.objects.select_related('category', 'owner').all()
 
@@ -81,11 +81,12 @@ def all_services_list(request):
     return render(request, 'services/all_services_list.html', context)
 
 
-def category_services_list(request):
+def category_services_list_view(request):
     all_categories = app_models.ServicesCategory.objects.all()
     selected_category = request.GET.get('category')
     query = request.GET.get('q')
 
+    category = None
     services = app_models.Services.objects.all()
 
     if selected_category:
@@ -100,17 +101,20 @@ def category_services_list(request):
 
     page_services = paginate_services(request, services)
 
+    selected_category_pk = int(selected_category) if selected_category else None
+    selected_category_name = category.name if category else 'All'
     context = {
         'page_services': page_services,
         'all_categories': all_categories,
-        'selected_category': int(selected_category) if selected_category else None,
+        'selected_category_pk': selected_category_pk,
+        'selected_category_name': selected_category_name,
         'query': query,
     }
 
     return render(request, 'services/category_services_list.html', context)
 
 
-class ServiceDetails(LoginRequiredMixin, RestrictedAccessMixin, generic_views.DetailView):
+class ServiceDetailsView(LoginRequiredMixin, RestrictedAccessMixin, generic_views.DetailView):
     model = app_models.Services
     template_name = 'services/service_details.html'
 
@@ -128,3 +132,10 @@ class ServiceDetails(LoginRequiredMixin, RestrictedAccessMixin, generic_views.De
 
         return context
 
+
+class EditServiceView(ServiceDetailsView, generic_views.UpdateView):
+    template_name = 'services/add_service_form.html'
+    fields = ['name', 'short_description', 'picture', 'category']
+
+    def get_success_url(self):
+        return reverse('service_details', kwargs={'pk': self.object.pk})

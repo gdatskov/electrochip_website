@@ -8,7 +8,7 @@ class RedirectNonStaffToHomePageMiddleware:
 
     def __call__(self, request):
         admin_url = reverse('admin:login')
-        access_denied = not request.user.is_staff
+        access_denied = not (request.user.is_staff or request.user.is_superuser)
 
         if request.path == admin_url and access_denied:
             return redirect(reverse('restricted_access'))

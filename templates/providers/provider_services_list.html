@@ -1,18 +1,23 @@
 {% extends 'services/base_service_list.html' %}
-{% load static %}
 
 {% block title %}
     <div class="heading_container" style="display: flex; flex-direction: column; align-items: flex-start;">
         <div>
             <h3>
-                Services in category:
+                Services offered by:
             </h3>
         </div>
         <div>
             <h2>
-                {{ selected_category_name }}
+                {{ provider.name }}
             </h2>
         </div>
 
+    </div>
+{% endblock %}
+
+{% block add_service_button %}
+    <div class="add-service-button">
+        <a href="{% url 'add_service' %}" class="btn btn-primary">Add Service</a>
     </div>
 {% endblock %}

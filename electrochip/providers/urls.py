@@ -3,8 +3,8 @@ from electrochip.providers.views import *
 
 urlpatterns = [
     path('<slug:slug>/', include([
-        path('', ProviderProfile.as_view(), name='provider_details'),
-        path('services/', provider_services_list, name='provider_services'),
+        path('', ProviderProfileView.as_view(), name='provider_details'),
+        path('services/', provider_services_list_view, name='provider_services'),
     ])),
     # path('all/', ProviderServiceList.as_view(), name='all providers'),    # TODO: Change view name
     # path('add/', BecomeProvider.as_view(), name='add provider'),  # TODO: Is it needed?

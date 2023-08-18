@@ -34,7 +34,7 @@
                             </a>
                         </p>
                         <div>
-{#                        TODO: Edit service details & add description#}
+                            {#                        TODO: Edit service details & add description#}
                             <strong>Additional Description:</strong>
                             <ul>
                                 {% for description in additional_descriptions %}
@@ -45,6 +45,9 @@
                                     <li>No Additional Description.</li>
                                 {% endfor %}
                             </ul>
+                        </div>
+                        <div class="add-service-button">
+                            <a href="{% url 'edit_service' pk=object.pk %}" class="btn btn-primary">Edit Service</a>
                         </div>
                     </div>
                 </div>

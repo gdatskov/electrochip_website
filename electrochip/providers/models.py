@@ -99,6 +99,7 @@ class Company(models.Model):
         blank=True
     )
 
+    # TODO: Expand functionality with many-to-many relation of providers and services
     # services = models.ManyToManyField(
     #     to=Services,
     #     blank=True,

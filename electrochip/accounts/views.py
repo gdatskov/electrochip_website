@@ -7,7 +7,6 @@ from django.views import generic as generic_views
 from django.views.generic import UpdateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-# from electrochip.mixins import LoginRequiredMixin
 from electrochip.accounts import forms
 from electrochip.accounts.forms import RegisterUserForm, EditUserProfileForm
 from electrochip.mixins import RestrictedAccessMixin
@@ -16,13 +15,12 @@ from electrochip.providers.models import Company
 UserModel = get_user_model()
 
 
-class Login(auth_views.LoginView):
+class LoginView(auth_views.LoginView):
     template_name = 'account/login.html'
-    # fields = ('username', 'password')
     next_page = reverse_lazy('index')
 
 
-class Register(generic_views.CreateView):
+class RegisterView(generic_views.CreateView):
     template_name = 'account/register.html'
     form_class = RegisterUserForm
     success_url = reverse_lazy('index')
@@ -97,7 +95,7 @@ class EditUserProfileView(LoginRequiredMixin, RestrictedAccessMixin, UpdateView)
 
     def get_object(self):
         # Return the currently logged-in user's profile
-         return self.request.user
+        return self.request.user
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
@@ -111,4 +109,3 @@ class EditUserProfileView(LoginRequiredMixin, RestrictedAccessMixin, UpdateView)
 
     def get_success_url(self):
         return reverse('profile', kwargs={'slug': self.object.slug})
-

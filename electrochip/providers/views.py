@@ -9,6 +9,7 @@ from electrochip.mixins import RestrictedAccessMixin
 from electrochip.providers.forms import FreelanceRegistrationForm, AddCompanyForm
 from electrochip.providers import models as provider_app_models
 from electrochip.services import models as service_app_models
+from electrochip.services.views import paginate_services
 
 UserModel = get_user_model()
 
@@ -30,12 +31,11 @@ UserModel = get_user_model()
 
 class FreelanceRegistrationView(LoginRequiredMixin, RestrictedAccessMixin, generic_views.CreateView):
     model = provider_app_models.Company
-    template_name = 'services/freelancer_registration_form.html'
+    template_name = 'providers/freelancer_registration_form.html'
     form_class = FreelanceRegistrationForm
 
     def form_valid(self, form):
         # Set the owner (logged-in user) as the owner of the new company (freelancer)
-        # TODO test if can register without logged in user
         form.instance.owner = self.request.user
 
         # Set is_freelancer to True for freelancer registration
@@ -59,7 +59,7 @@ class FreelanceRegistrationView(LoginRequiredMixin, RestrictedAccessMixin, gener
 
 class CompanyRegistrationView(LoginRequiredMixin, RestrictedAccessMixin, generic_views.CreateView):
     model = provider_app_models.Company
-    template_name = 'services/provider_registration_form.html'
+    template_name = 'providers/provider_registration_form.html'
     form_class = AddCompanyForm
 
     def form_valid(self, form):
@@ -77,33 +77,54 @@ class CompanyRegistrationView(LoginRequiredMixin, RestrictedAccessMixin, generic
         return super().form_valid(form)
 
     def get_success_url(self):
-        # TODO: fix redirect
-        # Redirect to the "AddService" form after company registration
         return reverse('provider details', kwargs={
-            'pk': self.object.pk})  # Replace 'add service' with your URL name for the "AddService" form
+            'pk': self.object.pk})
 
 
-def provider_services_list(request, slug):
-
+# TODO: Merge functionality with category_services_list_view() since they have pretty much the same functionality
+def provider_services_list_view(request, slug):
     provider = get_object_or_404(provider_app_models.Company, slug=slug)
     owner = provider.owner
     services = service_app_models.Services.objects.filter(owner=owner)
     category = service_app_models.ServicesCategory.objects.filter(services__in=services).distinct()
 
-    # page_services = paginate_services(request, services)
+    all_categories = service_app_models.ServicesCategory.objects.all()
+    selected_category = request.GET.get('category')
+    query = request.GET.get('q')
+
+    if selected_category:
+        category = get_object_or_404(service_app_models.ServicesCategory, pk=selected_category)
+        services = services.filter(category=category)
+        selected_category_name = category.name
+        selected_category_pk = int(selected_category)
+    else:
+        selected_category_name = "All categories"
+        selected_category_pk = None
+
+    if query:
+        services = services.filter(name__icontains=query)
+
+    for index, service in enumerate(services, start=1):
+        service.row_number = index
+
+    page_services = paginate_services(request, services)
 
     context = {
+        'page_services': page_services,
+        'all_categories': all_categories,
+        'selected_category_pk': selected_category_pk,
+        'selected_category_name': selected_category_name,
+        'query': query,
         'provider': provider,
         'category': category,
-        # 'page_services': page_services,
     }
 
-    return render(request, 'services/provider_services_list.html', context)
+    return render(request, 'providers/provider_services_list.html', context)
 
 
-class ProviderServices(generic_views.ListView):
+class ProviderServicesView(generic_views.ListView):
     model = service_app_models.ServicesCategory
-    template_name = 'services/provider_services_list.html'
+    template_name = 'providers/provider_services_list.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -119,9 +140,9 @@ class ProviderServices(generic_views.ListView):
         return context
 
 
-class ProviderProfile(LoginRequiredMixin, RestrictedAccessMixin, generic_views.DetailView):
+class ProviderProfileView(LoginRequiredMixin, RestrictedAccessMixin, generic_views.DetailView):
     model = provider_app_models.Company
-    template_name = 'services/service_provider_profile.html'
+    template_name = 'providers/service_provider_profile.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -139,5 +160,3 @@ class ProviderProfile(LoginRequiredMixin, RestrictedAccessMixin, generic_views.D
     def get_object(self):
         provider_slug = self.kwargs.get('slug')
         return get_object_or_404(self.model, slug=provider_slug)
-
-

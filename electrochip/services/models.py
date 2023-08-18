@@ -73,7 +73,7 @@ def get_default_category():
     if default_category:
         return default_category
     # If the default category doesn't exist, return a default value
-    return None  # You can adjust this to another fallback value if needed
+    return None
 
 
 class Services(models.Model):
@@ -208,7 +208,7 @@ class ServicePhotos(models.Model):
     objects = ServicePhotosManager()
 
     def delete(self, *args, **kwargs):
-        # Ensure the photo is deleted only if the associated service is deleted
+        # Photo is deleted only if the associated service is deleted
         if self.service_association is None:
             super().delete(*args, **kwargs)
 

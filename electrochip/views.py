@@ -1,5 +1,7 @@
 from django.contrib.admin import site as admin_site
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.views import LogoutView
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
@@ -18,7 +20,6 @@ def custom_admin_login(request, **kwargs):
         return admin_site.login(request, **kwargs)
     else:
         return redirect(reverse('index'))  # Redirect non-staff users to the home page
-
 
 def index(request):
     categories = app_models.ServicesCategory.objects.annotate(
