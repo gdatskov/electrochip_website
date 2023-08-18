@@ -1,12 +1,19 @@
 # electrochip_website
 
 ## Python Web Framework - Django website course project
-
-#### The base template and CSS styling are downloaded for free from here:
+### Description of the website project:
+#### The main idea of this website is to give a community a tool to search and offer services in an open environment, where any service provider (either individual or a company) can offer their services and provide a way to communicate with customers.  
+#### Any registered user can also register as a service provider (having connected both personal and company profiles), either for free or other form of income from users/companies (additional logic has to be added). And then, start posting their services, add description, photos, etc. in the desired category. If category doesn't exist, it can be suggested by users/providers and added by admin staff.  
+#### After posting the services, any user or anonymous website visitor can easily explore the categories, services and companies.   
+- Of course, anonymous users cannot view any data except categories and offered services.   
+- Details, descriptions, company profiles with limited personal data can be viewed only by registered users, while any sensitive information (e.g. e-mail, etc.) can only be viewed by the owner of the user account and the admin staff. 
+- The service provider profile containing company details that are supposed to be seen by the most amount of people is accessible to read by registered users.
+--------------
+#### The base template and CSS styling are downloaded for free from here:  
 https://www.free-css.com/free-css-templates/page294/electrochip
 
 ## Website concept map:
-![Concept map](https://github.com/gdatskov/electrochip_website/assets/103522803/340295f8-9b6f-4d96-8cc6-8ef902dcec8a)
+![Concept map](https://github.com/gdatskov/electrochip_website/assets/103522803/340295f8-9b6f-4d96-8cc6-8ef902dcec8a)  
 
 ## Database diagram
 ![Electrochip DB diagram(1)](https://github.com/gdatskov/electrochip_website/assets/103522803/86347cc9-e7d9-44c9-baf6-83f8c8d9dee4)
