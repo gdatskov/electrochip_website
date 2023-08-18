@@ -1,4 +1,5 @@
 {#{% extends 'base/base.html' %}#}
+{#{% load static %}#}
 {##}
 {#{% block content %}#}
 {#  <h2>Register as Freelance Provider</h2>#}
@@ -14,23 +15,106 @@
 {#  <a href="{% url 'company_registration' %}">Register as a company Instead</a>#}
 {#{% endblock %}#}
 
+{#{% extends 'base/base.html' %}#}
+{#{% load static %}#}
+{##}
+{#{% block content %}#}
+{#    <!-- registration section -->#}
+{#    <section class="contact_section layout_padding2-top layout_padding2-bottom" style="background-color: #f4f1fc;">#}
+{#        <div class="container">#}
+{#            <div class="heading_container">#}
+{#                <h2>#}
+{#                    Register#}
+{#                </h2>#}
+{#                <img src="{% static 'images/plug.png' %}" alt="">#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="container">#}
+{#            <div class="row">#}
+{#                <div class="col-md-6 offset-md-3">#}
+{#                    <form action="{% url 'register' %}" method="post" class="register-form">#}
+{#                        {% csrf_token %}#}
+{#                        {% for field in form %}#}
+{#                            {% if not field.is_hidden %}#}
+{#                                <div class="form-group">#}
+{#                                    <div class="input-container">#}
+{#                                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>#}
+{#                                        {{ field }}#}
+{#                                    <input type="text" class="custom-input" style="background-color: #eae6f5" required>#}
+{#                                        {% if field.errors %}#}
+{#                                            <div class="error-message">#}
+{#                                                {{ field.errors }}#}
+{#                                            </div>#}
+{#                                        {% endif %}#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            {% endif %}#}
+{#                        {% endfor %}#}
+{#                        <div class="form-group">#}
+{#                            <button type="submit" class="btn btn-primary">#}
+{#                                Register#}
+{#                            </button>#}
+{#                        </div>#}
+{#                    </form>#}
+{#                    <div class="form-group">#}
+{#                        <a href="{% url 'company_registration' %}" class="btn btn-secondary">#}
+{#                            Register as a company Instead#}
+{#                        </a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+{#    <!-- end registration section -->#}
+{#{% endblock %}#}
+
 
 {% extends 'base/base.html' %}
 {% load static %}
 
 {% block content %}
-  <h2>Register as Freelance Provider</h2>
+    <!-- registration section -->
+    <section class="contact_section layout_padding2-top layout_padding2-bottom" style="background-color: #f4f1fc;">
+        <div class="container">
+            <div class="heading_container">
+                <h2>
+                    Register as a Freelance Service Provider
+                </h2>
+                <img src="{% static 'images/plug.png' %}" alt="">
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <form method="post" class="register-form">
+                        {% csrf_token %}
 
-  <form method="post">
-    {% csrf_token %}
+                        {% for field in form %}
+                            {% if not field.is_hidden %}
+                                <div class="input-container">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    <input type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}"
+                                           id="{{ field.id_for_label }}"
+                                           class="custom-input" style="background-color: #eae6f5" {% if field.value %}
+                                           value="{{ field.value }}"{% endif %}>
+                                    {% if field.errors %}
+                                        <div class="error-message">
+                                            {{ field.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
 
-    {{ form.first_name.label_tag }} {{ form.first_name }}
-    {{ form.last_name.label_tag }} {{ form.last_name }}
-
-    {{ form.as_p }}
-
-    <button type="submit">Register</button>
-  </form>
-
-  <a href="{% url 'company_registration' %}">Register as a company Instead</a>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                Register
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end registration section -->
 {% endblock %}

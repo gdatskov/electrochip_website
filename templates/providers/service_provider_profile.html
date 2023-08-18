@@ -1,3 +1,58 @@
+{#{% extends 'base/base.html' %}#}
+{#{% load static %}#}
+{##}
+{#{% block content %}#}
+{#    <!-- profile section -->#}
+{#    <section class="profile_section layout_padding2-top layout_padding2-bottom about_section"#}
+{#             style="background-color: #f4f1fc;">#}
+{#        <div class="container">#}
+{#            <div class="heading_container">#}
+{#                <h2>#}
+{#                    Provider Details#}
+{#                </h2>#}
+{#                <img src="{% static 'images/plug.png' %}" alt="">#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="container">#}
+{#            <div class="row">#}
+{#                <div class="col-md-6 offset-md-3">#}
+{#                    <div class="profile-info">#}
+{#                        <h3 style="margin-left: 20px"><strong>{{ company.name }}</strong></h3>#}
+{#                        <div class="img_container">#}
+{#                            <div class="img-box b2">#}
+{#                                <img src="#}
+{#                                        {% if company.company_logo %}#}
+{#                                            {{ company.company_logo }}#}
+{#                                        {% else %}#}
+{#                                            {% static 'images/default_profile_picture.jpg' %}#}
+{#                                        {% endif %}"#}
+{#                                     alt="Company Logo">#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="profile-info">#}
+{#                            <h4 style="margin-left: 20px"><strong>{{ full_name }}</strong></h4>#}
+{#                            <p><strong>Company e-mail:</strong> {{ company.email }}</p>#}
+{#                            <p><strong>Company phone:</strong> {{ company.phone }}</p>#}
+{#                            <p><strong>Company address:</strong>#}
+{#                                {{ company.address }},#}
+{#                                {{ company.city }},#}
+{#                                {{ company.country }}#}
+{#                            </p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="button-container" style="margin-top: 100px;">#}
+{#                        <a href="{% url 'provider_services' slug=object.slug %}?all_categories=True" class="btn custom-button"#}
+{#                           style="font-size: 1.2em; padding: 5px 20px; min-width: 120px; background-color: #4b208c; border-radius: 0; color: white;">#}
+{#                            View Services#}
+{#                        </a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+{#    <!-- end profile section -->#}
+{#{% endblock %}#}
+
 {% extends 'base/base.html' %}
 {% load static %}
 
@@ -45,6 +100,12 @@
                            style="font-size: 1.2em; padding: 5px 20px; min-width: 120px; background-color: #4b208c; border-radius: 0; color: white;">
                             View Services
                         </a>
+                        {% if is_owner %}
+                            <a href="{% url 'provider_edit' slug=object.slug %}" class="btn custom-button"
+                               style="font-size: 1.2em; padding: 5px 20px; min-width: 120px; background-color: #4b208c; border-radius: 0; color: white;">
+                                Edit Profile
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -52,3 +113,4 @@
     </section>
     <!-- end profile section -->
 {% endblock %}
+

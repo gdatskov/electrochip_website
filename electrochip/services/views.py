@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import generic as generic_views
 
@@ -129,6 +129,7 @@ class ServiceDetailsView(LoginRequiredMixin, RestrictedAccessMixin, generic_view
 
         context['provider'] = provider
         context['additional_descriptions'] = additional_descriptions
+        context['is_owner'] = self.object.owner == self.request.user
 
         return context
 
@@ -136,6 +137,16 @@ class ServiceDetailsView(LoginRequiredMixin, RestrictedAccessMixin, generic_view
 class EditServiceView(ServiceDetailsView, generic_views.UpdateView):
     template_name = 'services/add_service_form.html'
     fields = ['name', 'short_description', 'picture', 'category']
+
+    def dispatch(self, request, *args, **kwargs):
+        # Get the service object
+        self.object = self.get_object()
+
+        # Check if the logged-in user is the owner of the service
+        if self.object.owner != self.request.user:
+            return redirect('restricted_access')  # Redirect to 'restricted_access' view
+
+        return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse('service_details', kwargs={'pk': self.object.pk})

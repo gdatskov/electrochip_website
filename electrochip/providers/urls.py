@@ -4,6 +4,7 @@ from electrochip.providers.views import *
 urlpatterns = [
     path('<slug:slug>/', include([
         path('', ProviderProfileView.as_view(), name='provider_details'),
+        path('edit/', EditProviderProfileView.as_view(), name='provider_edit'),
         path('services/', provider_services_list_view, name='provider_services'),
     ])),
     # path('all/', ProviderServiceList.as_view(), name='all providers'),    # TODO: Change view name

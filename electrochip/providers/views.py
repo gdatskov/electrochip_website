@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import generic as generic_views
 
 from electrochip.mixins import RestrictedAccessMixin
@@ -160,3 +160,33 @@ class ProviderProfileView(LoginRequiredMixin, RestrictedAccessMixin, generic_vie
     def get_object(self):
         provider_slug = self.kwargs.get('slug')
         return get_object_or_404(self.model, slug=provider_slug)
+
+
+class EditProviderProfileView(LoginRequiredMixin, RestrictedAccessMixin, generic_views.UpdateView):
+    model = provider_app_models.Company
+    template_name = 'providers/edit_provider_profile.html'
+
+    fields = [
+        'name',
+        'name',
+        'is_freelance',
+        'company_logo',
+        'city',
+        'address',
+        'phone',
+        'company_national_id',
+        'representatives',
+    ]
+
+    def dispatch(self, request, *args, **kwargs):
+        # Get the provider object
+        self.object = self.get_object()
+
+        # Check if the logged-in user is the owner of the service
+        if self.object.owner != self.request.user:
+            return redirect('restricted_access')  # Redirect to 'restricted_access' view
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse_lazy('provider_details', kwargs={'slug': self.object.slug})

@@ -14,7 +14,7 @@
                         <div class="img-container">
                             <div class="img-box">
                                 <a href="{{ object.picture }}" target="_blank">
-                                    <img src="{{ object.picture }}" alt="Service Image" class="service-image">
+                                    <img src="{{ object.picture }}" alt="Service Image" style="max-width: 100%; height: auto;">
                                 </a>
                             </div>
                         </div>
@@ -46,9 +46,11 @@
                                 {% endfor %}
                             </ul>
                         </div>
+                    {% if is_owner %}
                         <div class="add-service-button">
                             <a href="{% url 'edit_service' pk=object.pk %}" class="btn btn-primary">Edit Service</a>
                         </div>
+                    {% endif %}
                     </div>
                 </div>
             </div>
