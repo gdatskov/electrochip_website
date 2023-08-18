@@ -1,11 +1,36 @@
+{#{% extends 'base/base.html' %}#}
+{##}
+{#{% block content %}#}
+{#  <h2>Register as Freelance Provider</h2>#}
+{##}
+{#  <form method="post">#}
+{#    {% csrf_token %}#}
+{##}
+{#    {{ form.as_p }}#}
+{##}
+{#    <button type="submit">Register</button>#}
+{#  </form>#}
+{##}
+{#  <a href="{% url 'company_registration' %}">Register as a company Instead</a>#}
+{#{% endblock %}#}
+
+
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block content %}
   <h2>Register as Freelance Provider</h2>
+
   <form method="post">
     {% csrf_token %}
+
+    {{ form.first_name.label_tag }} {{ form.first_name }}
+    {{ form.last_name.label_tag }} {{ form.last_name }}
+
     {{ form.as_p }}
+
     <button type="submit">Register</button>
   </form>
+
   <a href="{% url 'company_registration' %}">Register as a company Instead</a>
 {% endblock %}

@@ -36,24 +36,19 @@
                         </li>
 
                         {% if not request.user.is_authenticated %}
-                            {# TODO: Register... Note: class="nav-item active" #}
                             <li class="nav-item active">
                                 <a class="nav-link" href="{% url 'register' %}">Register </a>
                             </li>
-                            {# TODO: Login... Note: class="nav-item active" #}
                             <li class="nav-item active">
                                 <a class="nav-link" href="{% url 'login' %}">Login <span
                                         class="sr-only">(current)</span></a>
                             </li>
                         {% else %}
-                            {# TODO: Profile... Note: class="nav-item active" #}
                             <li class="nav-item active">
-{#                            TODO: SLUG OR PK#}
 {#                                <a class="nav-link" href="{% url 'profile' user.pk %}">Profile</a>#}
                                 <a class="nav-link" href="{% url 'profile' slug=request.user.slug %}">Profile</a>
 
                             </li>
-                            {# TODO: Logout... Note: class="nav-item active" #}
                             <li class="nav-item active">
                                 <a class="nav-link" href="{% url 'logout' %}">Logout </a>
                             </li>

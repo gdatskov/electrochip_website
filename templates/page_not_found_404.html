@@ -1,0 +1,10 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <div class="container text-center mt-5">
+        <p>Oops! The page you're looking for doesn't exist or something went bad on our side.</p>
+        <p>Don't worry, you can always try later or <a href="{% url 'contact' %}" style="color: dodgerblue;">contact us</a> for assistance.</p>
+        <p><a href="{% url 'index' %}" class="btn btn-primary">Go to Home Page</a></p>
+    </div>
+{% endblock %}
+

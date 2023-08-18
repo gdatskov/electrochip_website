@@ -14,5 +14,5 @@ class FreelanceRegistrationForm(AddCompanyForm):
         super().__init__(*args, **kwargs)
 
         # Hide not needed fields
-        self.fields['name'].widget = forms.HiddenInput()
+        # self.fields['name'].widget = forms.HiddenInput()
         self.fields['company_national_id'].widget = forms.HiddenInput()

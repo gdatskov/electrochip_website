@@ -17,22 +17,68 @@
             <select name="category" id="category" onchange="this.form.submit()">
                 <option value="">All Categories</option>
                 {% for cat in all_categories %}
-                    <option value="{{ cat.pk }}" {% if selected_category == cat.pk %}selected{% endif %}>{{ cat.name }}</option>
+                    <option value="{{ cat.pk }}"
+                            {% if selected_category == cat.pk %}
+                            selected
+                            {% endif %}>
+                        {{ cat.name }}
+                    </option>
                 {% endfor %}
             </select>
         </div>
     </form>
 
-    <div class="services-list">
-        <ul>
-            {% for service in page_services %}
-                <li>{{ service.name }}</li>
-            {% empty %}
-                <li>No services found.</li>
-            {% endfor %}
-        </ul>
-        <div class="pagination">
-            <!-- Pagination links here -->
-        </div>
+    <table class="services-table">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Service Name</th>
+            {% if not selected_category %}
+                <th>Category</th>
+            {% endif %}
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for service in page_services %}
+            <tr>
+                <td>{{ service.row_number }}</td>
+                <td>
+                    <a href="{% url 'service_details' service.pk %}">{{ service.name }}</a>
+                </td>
+                {% if not selected_category %}
+                    <!-- Display category name only when a specific category is selected -->
+                    <td>
+                        <a href="{% url 'service category' %}?category={{ service.category.pk }}">{{ service.category.name }}</a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="{% if selected_category == '' %}2{% else %}1{% endif %}">
+                    No services found.
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <!-- Display pagination links -->
+        <span class="step-links">
+            {% if page_services.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_services.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current-page">
+                Page {{ page_services.number }} of {{ page_services.paginator.num_pages }}.
+            </span>
+
+            {% if page_services.has_next %}
+                <a href="?page={{ page_services.next_page_number }}">next</a>
+                <a href="?page={{ page_services.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
     </div>
 {% endblock %}

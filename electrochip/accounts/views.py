@@ -1,17 +1,17 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth import views as auth_views, login, logout, get_user_model  # LoginView, LogoutView
 from django.urls import reverse_lazy, reverse
 from django.utils.text import slugify
-from django.views import generic as generic_views  # CreateView, DetailView, UpdateView
-from django.views.generic import UpdateView, DetailView, TemplateView
+from django.views import generic as generic_views
+from django.views.generic import UpdateView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
+# from electrochip.mixins import LoginRequiredMixin
 from electrochip.accounts import forms
 from electrochip.accounts.forms import RegisterUserForm, EditUserProfileForm
-from electrochip.accounts.mixins import RestrictedAccessMixin
-from electrochip.accounts.models import AppUser
+from electrochip.mixins import RestrictedAccessMixin
+from electrochip.providers.models import Company
 
 UserModel = get_user_model()
 
@@ -55,7 +55,7 @@ def logout_view(request):
     elif request.method == 'POST':
         # Perform the logout and redirect
         logout(request)
-        return redirect('index')  # Redirect to the index page
+        return redirect('index')
 
 
 def get_full_name(user):
@@ -65,7 +65,7 @@ def get_full_name(user):
     return full_name
 
 
-class UserProfileView(LoginRequiredMixin, DetailView):
+class UserProfileView(LoginRequiredMixin, RestrictedAccessMixin, DetailView):
     model = UserModel
     template_name = 'account/user_profile.html'
 
@@ -77,6 +77,7 @@ class UserProfileView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['full_name'] = get_full_name(self.object)
         context['is_owner'] = self.object == self.request.user
+        context['company'] = Company.objects.get(owner=self.object)
         return context
 
     def generate_slug(self):
@@ -84,14 +85,10 @@ class UserProfileView(LoginRequiredMixin, DetailView):
         return slug  # Use the slugified username as the slug
 
 
-class EditUserProfileView(LoginRequiredMixin, UpdateView):
-    model = UserModel  # Specify the model for the view
-    form_class = EditUserProfileForm    # Use the EditUserProfileForm
-    template_name = 'account/edit_user_profile.html'  # Specify the template for the view
-
-    #
-    # def get_queryset(self):
-    #     return UserModel.objects
+class EditUserProfileView(LoginRequiredMixin, RestrictedAccessMixin, UpdateView):
+    model = UserModel
+    form_class = EditUserProfileForm
+    template_name = 'account/edit_user_profile.html'
 
     def get_object(self):
         # Return the currently logged-in user's profile
@@ -101,7 +98,6 @@ class EditUserProfileView(LoginRequiredMixin, UpdateView):
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
 
-        # Set default values for optional fields
         optional_fields = ['first_name', 'last_name', 'profile_picture']
         for field_name in optional_fields:
             if not getattr(form.instance, field_name):
@@ -110,10 +106,5 @@ class EditUserProfileView(LoginRequiredMixin, UpdateView):
         return form
 
     def get_success_url(self):
-        return reverse('profile')
+        return reverse('profile', kwargs={'slug': self.object.slug})
 
-
-
-
-class RestrictedAccessView(TemplateView):
-    template_name = 'account/../../templates/restricted_access.html'

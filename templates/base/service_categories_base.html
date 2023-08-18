@@ -13,21 +13,16 @@
         </div>
 
         <div class="service_container">
-{#             TODO: Idea: Maybe change categories or auto-add categories with paging, add popular categories#}
-{#             TODO: Idea: Maybe add sub-categories#}
+{#             TODO: Sort by popular categories#}
             {% for category in category_list %}
                     <div class="box">
-{#                      TODO: DEL IF WORKS#}
                         <a href="{% url 'service category' %}?category={{ category.pk }}">
-{#                        <a href="{% url 'service category' %}">#}
                             <div class="img-box">
                                 <img src='{% static category.picture %}' class="img1" alt="">
                             </div>
                         </a>
                         <div class="detail-box">
-{#                          TODO: DEL IF WORKS#}
                             <a href="{% url 'service category' %}?category={{ category.pk }}">
-{#                            <a href="{% url 'service category' %}">#}
                                 <h5>
                                     {{ category.name }}
                                 </h5>

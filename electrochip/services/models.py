@@ -3,6 +3,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 
+from electrochip.providers.models import Company
+
 UserModel = get_user_model()
 
 

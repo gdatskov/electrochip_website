@@ -8,16 +8,43 @@
             <div class="row">
                 <div class="col-md-6 offset-md-3">
                     <div class="service-details-info">
+
                         <h3>{{ object.name }}</h3>
-                        <p>{{ object.short_description }}</p>
-                        <p><strong>Category:</strong> {{ object.category.name }}</p>
-                        <p><strong>Owner:</strong> {{ object.owner.username }}</p>
+
                         <div class="img-container">
                             <div class="img-box">
                                 <a href="{{ object.picture }}" target="_blank">
                                     <img src="{{ object.picture }}" alt="Service Image" class="service-image">
                                 </a>
                             </div>
+                        </div>
+
+                        <p>{{ object.short_description }}</p>
+
+                        <p>
+                            <strong>Category:</strong>
+                            <a href="{% url 'service category' %}?category={{ object.category.pk }}">
+                                {{ object.category.name }}
+                            </a>
+                        </p>
+                        <p>
+                            <strong>Service provider:</strong>
+                            <a href="{% url 'provider_details' slug=provider.slug %}">
+                                {{ provider.name }}
+                            </a>
+                        </p>
+                        <div>
+{#                        TODO: Edit service details & add description#}
+                            <strong>Additional Description:</strong>
+                            <ul>
+                                {% for description in additional_descriptions %}
+                                    <li>
+                                        {{ description }}
+                                    </li>
+                                {% empty %}
+                                    <li>No Additional Description.</li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
                 </div>

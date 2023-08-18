@@ -38,6 +38,6 @@ class EditUserProfileForm(UserChangeForm):
             'email': 'E-mail:',
             'profile_picture': 'Image:',
         }
-    # TODO? What is this? Is needed?
+    # TODO: Validation ideas
     # first_name = forms.CharField(validators=[no_digits_validator], required=False)
     # last_name = forms.CharField(validators=[no_digits_validator], required=False)

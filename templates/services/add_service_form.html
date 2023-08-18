@@ -1,15 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Service Provider</title>
-</head>
-<body>
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Service Provider</title>#}
+{#</head>#}
+{#<body>#}
+{#    <h1>Add Service Form</h1>#}
+{#    <form method="post">#}
+{#        {% csrf_token %}#}
+{#        {{ form.as_p }}#}
+{#        <button type="submit">Submit</button>#}
+{#    </form>#}
+{#</body>#}
+{#</html>#}
+
+{#{% extends 'base/base.html' %}#}
+{#{% load static %}#}
+{##}
+{#{% block content %}#}
+{#    <!-- add service section -->#}
+{#    <section class="contact_section layout_padding2-top layout_padding2-bottom" style="background-color: #f4f1fc;">#}
+{#        <div class="container">#}
+{#            <div class="heading_container">#}
+{#                <h2>#}
+{#                    Add Service Form#}
+{#                </h2>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="container">#}
+{#            <div class="row">#}
+{#                <div class="col-md-6 offset-md-3">#}
+{#                    <form method="post" class="register-form">#}
+{#                        {% csrf_token %}#}
+{#                        <div class="form-group">#}
+{#                            <div class="input-container">#}
+{#                                <label for="{{ form.name.id_for_label }}">Service Name</label>#}
+{#                                {{ form.name }}#}
+{#                                {% if form.name.errors %}#}
+{#                                    <div class="error-message">#}
+{#                                        {{ form.name.errors }}#}
+{#                                    </div>#}
+{#                                {% endif %}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="form-group">#}
+{#                            <div class="input-container">#}
+{#                                <label for="{{ form.description.id_for_label }}">Description</label>#}
+{#                                <textarea id="{{ form.description.id_for_label }}" name="{{ form.description.name }}" class="custom-input" style="background-color: #eae6f5" required>{{ form.description.value }}</textarea>#}
+{#                                {% if form.description.errors %}#}
+{#                                    <div class="error-message">#}
+{#                                        {{ form.description.errors }}#}
+{#                                    </div>#}
+{#                                {% endif %}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="form-group">#}
+{#                            <button type="submit" class="btn btn-primary">#}
+{#                                Submit#}
+{#                            </button>#}
+{#                        </div>#}
+{#                    </form>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
+{#    <!-- end add service section -->#}
+{#{% endblock %}#}
+
+
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
     <h1>Add Service Form</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Submit</button>
     </form>
-</body>
-</html>
+{% endblock %}

@@ -4,7 +4,6 @@ from django.db import models
 from django.utils.text import slugify
 
 from electrochip import validators as custom_validators
-from electrochip.services.models import Services
 
 UserModel = get_user_model()
 
@@ -24,7 +23,6 @@ class Company(models.Model):
     class Meta:
         verbose_name = 'Service Provider'
         verbose_name_plural = "Service Providers"
-
 
     name = models.CharField(
         max_length=MAX_NAME_LEN,
@@ -95,18 +93,17 @@ class Company(models.Model):
         blank=False,  # Cannot be empty upon creation
     )
 
-
-
     representatives = models.ManyToManyField(
         to=UserModel,
         related_name='representing_companies',  # Specify a custom related name
         blank=True
     )
 
-    services = models.ManyToManyField(
-        to=Services,
-        blank=True,
-    )
+    # services = models.ManyToManyField(
+    #     to=Services,
+    #     blank=True,
+    #     related_name='company',
+    # )
 
     def save(self, *args, **kwargs):
         if not self.slug:

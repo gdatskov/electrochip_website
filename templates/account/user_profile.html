@@ -42,14 +42,12 @@
                             Edit Profile
                         </a>
                     {% endif %}
-                    {#                    TODO: edit services after redirect to provider services (if_owner)#}
                     {% if user.is_provider %}
-                        <a href="{% url 'provider services' pk=user.pk %}" class="btn custom-button"
+                        <a href="{% url 'provider_services' slug=company.slug %}" class="btn custom-button"
                            style="font-size: 1.2em; padding: 5px 20px; min-width: 120px; background-color: #4b208c; border-radius: 0; color: white;">
                             View Services
                         </a>
                     {% else %}
-                        {#                            TODO: Provider dataset and logic#}
                         <a href="{% url 'freelance_registration' %}" class="btn custom-button"
                            style="font-size: 1.2em; padding: 5px 20px; min-width: 120px; background-color: #4b208c; border-radius: 0; color: white;">
                             Become a service provider

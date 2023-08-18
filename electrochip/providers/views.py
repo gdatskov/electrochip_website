@@ -1,9 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import generic as generic_views
 
+from electrochip.mixins import RestrictedAccessMixin
 from electrochip.providers.forms import FreelanceRegistrationForm, AddCompanyForm
 from electrochip.providers import models as provider_app_models
 from electrochip.services import models as service_app_models
@@ -12,7 +14,7 @@ UserModel = get_user_model()
 
 
 # TODO: Check if needed
-class BecomeProvider(generic_views.View, LoginRequiredMixin):
+class BecomeProvider(LoginRequiredMixin, RestrictedAccessMixin,  generic_views.View):
     template_name = 'services/freelancer_registration_form.html'
 
     def get(self, request, *args, **kwargs):
@@ -26,7 +28,7 @@ class BecomeProvider(generic_views.View, LoginRequiredMixin):
             return redirect('company_registration')
 
 
-class FreelanceRegistrationView(generic_views.CreateView, LoginRequiredMixin):
+class FreelanceRegistrationView(LoginRequiredMixin, RestrictedAccessMixin, generic_views.CreateView):
     model = provider_app_models.Company
     template_name = 'services/freelancer_registration_form.html'
     form_class = FreelanceRegistrationForm
@@ -51,12 +53,11 @@ class FreelanceRegistrationView(generic_views.CreateView, LoginRequiredMixin):
         return {'name': full_name}
 
     def get_success_url(self):
-        # TODO: fix redirect
-        # Redirect to the "AddService" form after freelancer registration
-        return reverse('provider details')  # Replace 'add service' with your URL name for the "AddService" form
+        provider_slug = self.object.slug
+        return reverse('provider_details', kwargs={'slug': provider_slug})
 
 
-class CompanyRegistrationView(generic_views.CreateView, LoginRequiredMixin):
+class CompanyRegistrationView(LoginRequiredMixin, RestrictedAccessMixin, generic_views.CreateView):
     model = provider_app_models.Company
     template_name = 'services/provider_registration_form.html'
     form_class = AddCompanyForm
@@ -82,9 +83,12 @@ class CompanyRegistrationView(generic_views.CreateView, LoginRequiredMixin):
             'pk': self.object.pk})  # Replace 'add service' with your URL name for the "AddService" form
 
 
-def provider_services_list(request, pk):
-    provider = get_object_or_404(UserModel, pk=pk)
-    services = service_app_models.Services.objects.filter(owner_id=pk)
+def provider_services_list(request, slug):
+    print(slug)
+    print()
+    provider = get_object_or_404(provider_app_models.Company, slug=slug)
+    owner = provider.owner
+    services = service_app_models.Services.objects.filter(owner=owner)
     category = service_app_models.ServicesCategory.objects.filter(services__in=services).distinct()
 
     # page_services = paginate_services(request, services)
@@ -116,7 +120,7 @@ class ProviderServices(generic_views.ListView):
         return context
 
 
-class ProviderProfile(generic_views.DetailView):
+class ProviderProfile(LoginRequiredMixin, RestrictedAccessMixin, generic_views.DetailView):
     model = provider_app_models.Company
     template_name = 'services/service_provider_profile.html'
 
@@ -125,7 +129,7 @@ class ProviderProfile(generic_views.DetailView):
         company = self.object
 
         # Get the provider's services (associated with the company)
-        provider_services = company.services.all()
+        provider_services = service_app_models.Services.objects.filter(owner_id=company.id)
 
         context['company'] = company
         context['provider_services'] = provider_services
@@ -134,9 +138,7 @@ class ProviderProfile(generic_views.DetailView):
         return context
 
     def get_object(self):
-        # Return the requested provider based on the URL parameter
-        provider_id = self.kwargs.get('pk')
-        # TODO app_models.Company or self?
-        return get_object_or_404(self.model, pk=provider_id)
+        provider_slug = self.kwargs.get('slug')
+        return get_object_or_404(self.model, slug=provider_slug)
 
 

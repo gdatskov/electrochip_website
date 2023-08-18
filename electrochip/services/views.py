@@ -1,30 +1,38 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views import generic as generic_views
 
+from electrochip.mixins import RestrictedAccessMixin
+from electrochip.providers.models import Company
 from electrochip.services.forms import AddServiceForm
 from electrochip.services import models as app_models
 
 UserModel = get_user_model()
 
 
-# TODO: Test all login required views
-
-class AddService(generic_views.CreateView):
+class AddService(LoginRequiredMixin, RestrictedAccessMixin, generic_views.CreateView):
     model = app_models.Services
     template_name = 'services/add_service_form.html'
     form_class = AddServiceForm
 
     def form_valid(self, form):
-        # TODO Set the owner (logged-in user) as the owner of the new service
-        form.instance.owner = self.request.user
+        owner = self.request.user
+
+        # Set the owner (logged-in user) as the owner of the new service
+        form.instance.owner = owner
+
+        # Get the associated company for the logged-in user
+        company = Company.objects.get(owner=owner)
+        form.instance.company = company
+
         return super().form_valid(form)
 
     def get_success_url(self):
-        # Redirect to a success page after adding the service
-        return reverse('all services')  # TODO Replace 'service_added' with the appropriate URL name
+        provider = get_object_or_404(Company, owner_id=self.request.user.pk)
+        return reverse('provider_services', kwargs={'slug': provider.slug})
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
@@ -87,6 +95,9 @@ def category_services_list(request):
     if query:
         services = services.filter(name__icontains=query)
 
+    for index, service in enumerate(services, start=1):
+        service.row_number = index
+
     page_services = paginate_services(request, services)
 
     context = {
@@ -99,8 +110,21 @@ def category_services_list(request):
     return render(request, 'services/category_services_list.html', context)
 
 
-class ServiceDetails(generic_views.DetailView):
+class ServiceDetails(LoginRequiredMixin, RestrictedAccessMixin, generic_views.DetailView):
     model = app_models.Services
     template_name = 'services/service_details.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        service = self.object
+        owner = service.owner
+        provider = Company.objects.get(owner=owner)
+
+        additional_descriptions = service.serviceadditionaldescription_set.values_list('description', flat=True)
+
+        context['provider'] = provider
+        context['additional_descriptions'] = additional_descriptions
+
+        return context
 

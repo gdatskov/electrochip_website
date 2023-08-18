@@ -41,7 +41,7 @@ class CompanyAdmin(admin.ModelAdmin):
     )
     readonly_fields = ('slug',)
 
-    filter_horizontal = ('representatives', 'services')
+    filter_horizontal = ('representatives',)
 
     @staticmethod
     def picture_display(obj):

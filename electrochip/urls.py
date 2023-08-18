@@ -17,26 +17,26 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from electrochip.exception_handlers import restricted_access_403
+from electrochip.exception_handlers import *
 from electrochip.settings import DEBUG
 from electrochip.views import *
 
 urlpatterns = [
     path('', index, name='index'),
-    # TODO: service views
     path('anchors/<str:section>/', anchor_redirect, name='anchor_redirect'),
     path('blog/', blog, name='blog'),
     path('about/', about, name='about'),
     path('contact/', contact, name='contact'),
     path('account/', include('electrochip.accounts.urls')),
-    path('service/', include('electrochip.services.urls')),
+    path('services/', include('electrochip.services.urls')),
     path('provider/', include('electrochip.providers.urls')),
+    path('restricted-access/', RestrictedAccessView.as_view(), name='restricted_access'),
 
+    # TODO: Admin site - accessible only if logged user is staff (do not ask for login and redirect if not)
+    path('admin/', admin.site.urls),
 ]
-# TODO: Admin site - accessible only if logged user is staff (do not ask for login and redirect if not)
-if DEBUG:
-    urlpatterns.extend([
-        path('admin/', admin.site.urls),
-    ])
 
 handler403 = restricted_access_403
+handler404 = page_not_found_404
+handler500 = server_error_500
+

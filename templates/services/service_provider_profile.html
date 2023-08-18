@@ -30,19 +30,19 @@
                             <p><strong>Company address:</strong> {{ company.address }}</p>
                         </div>
                     </div>
-                    {% if is_owner %}
                     <div class="button-container" style="margin-top: 100px;">
-{#                        <a href="{% url 'edit_profile' request.user.slug %}" class="btn custom-button"#}
-                        <a href="{% url 'edit_profile' %}" class="btn custom-button"
-                           style="font-size: 1.2em; padding: 5px 20px; min-width: 120px; background-color: #4b208c; border-radius: 0; color: white; margin-right: 90px;">
-                            Edit Profile
-                        </a>
-                        <a href="{% url 'index' %}" class="btn custom-button"
+                        {% if is_owner %}
+                            {#                        <a href="{% url 'edit_profile' request.user.slug %}" class="btn custom-button"#}
+                            <a href="{% url 'edit_profile' %}" class="btn custom-button"
+                               style="font-size: 1.2em; padding: 5px 20px; min-width: 120px; background-color: #4b208c; border-radius: 0; color: white; margin-right: 90px;">
+                                Edit Profile
+                            </a>
+                        {% endif %}
+                        <a href="{% url 'provider_services' slug=object.slug %}" class="btn custom-button"
                            style="font-size: 1.2em; padding: 5px 20px; min-width: 120px; background-color: #4b208c; border-radius: 0; color: white;">
-                            Edit Services
+                            View Services
                         </a>
                     </div>
-                    {% endif %}
                 </div>
             </div>
         </div>
