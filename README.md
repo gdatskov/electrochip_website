@@ -19,6 +19,12 @@ https://www.free-css.com/free-css-templates/page294/electrochip
 #### Services category page:
 ![image](https://github.com/gdatskov/electrochip_website/assets/103522803/6b6c8e67-3425-4f7c-8b66-c136df0c7688)
 
+#### Browse and search services by category or provider
+![image](https://github.com/gdatskov/electrochip_website/assets/103522803/41a28765-0262-447a-bdb1-bf323eec1db6)
+
+#### Service details view:
+![image](https://github.com/gdatskov/electrochip_website/assets/103522803/9e1afc55-83d6-400b-bcec-7436d7a6771e)
+
 #### About us page:
 ![image](https://github.com/gdatskov/electrochip_website/assets/103522803/cbda3a18-fd76-452f-bec8-be41d2b9f95e)
 
@@ -34,11 +40,14 @@ https://www.free-css.com/free-css-templates/page294/electrochip
 #### Edit Profile page
 ![image](https://github.com/gdatskov/electrochip_website/assets/103522803/ba34dbef-f377-449d-9871-1923f067cfd0)
 
+#### Register as a Service Provider
+![image](https://github.com/gdatskov/electrochip_website/assets/103522803/736b6268-3941-47c0-8192-a39c6471ebdc)
 
+#### Provider (Company) Profile
+![image](https://github.com/gdatskov/electrochip_website/assets/103522803/84a26345-1f30-443d-8b8a-dd9399f30c74)
 
-
-
-
+#### And if you try something you shouldn't or something goes wrong (403, 404, 500 errors):
+![image](https://github.com/gdatskov/electrochip_website/assets/103522803/ebc71564-863d-4280-a474-69c0729f86e7)
 
 
 
