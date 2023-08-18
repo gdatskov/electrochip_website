@@ -45,13 +45,18 @@
                             </li>
                         {% else %}
                             <li class="nav-item active">
-{#                                <a class="nav-link" href="{% url 'profile' user.pk %}">Profile</a>#}
+                                {#                                <a class="nav-link" href="{% url 'profile' user.pk %}">Profile</a>#}
                                 <a class="nav-link" href="{% url 'profile' slug=request.user.slug %}">Profile</a>
 
                             </li>
                             <li class="nav-item active">
                                 <a class="nav-link" href="{% url 'logout' %}">Logout </a>
                             </li>
+                            {% if request.user.is_staff or request.user.is_superuser %}
+                                <li class="nav-item active">
+                                    <a class="nav-link btn btn-link" href="{% url 'admin:index' %}"  style="background-color: #417690">Administrator</a>
+                                </li>
+                            {% endif %}
                         {% endif %}
 
                     </ul>

@@ -14,18 +14,18 @@ UserModel = get_user_model()
 
 
 # TODO: Check if needed
-class BecomeProvider(LoginRequiredMixin, RestrictedAccessMixin,  generic_views.View):
-    template_name = 'services/freelancer_registration_form.html'
-
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {'freelance_registration_form': FreelanceRegistrationForm()})
-
-    def post(self, request, *args, **kwargs):
-        registration_type = request.POST.get('registration_type')
-        if registration_type == 'freelance':
-            return redirect('freelance_registration')
-        elif registration_type == 'company':
-            return redirect('company_registration')
+# class BecomeProvider(LoginRequiredMixin, RestrictedAccessMixin,  generic_views.View):
+#     template_name = 'services/freelancer_registration_form.html'
+#
+#     def get(self, request, *args, **kwargs):
+#         return render(request, self.template_name, {'freelance_registration_form': FreelanceRegistrationForm()})
+#
+#     def post(self, request, *args, **kwargs):
+#         registration_type = request.POST.get('registration_type')
+#         if registration_type == 'freelance':
+#             return redirect('freelance_registration')
+#         elif registration_type == 'company':
+#             return redirect('company_registration')
 
 
 class FreelanceRegistrationView(LoginRequiredMixin, RestrictedAccessMixin, generic_views.CreateView):
@@ -84,8 +84,7 @@ class CompanyRegistrationView(LoginRequiredMixin, RestrictedAccessMixin, generic
 
 
 def provider_services_list(request, slug):
-    print(slug)
-    print()
+
     provider = get_object_or_404(provider_app_models.Company, slug=slug)
     owner = provider.owner
     services = service_app_models.Services.objects.filter(owner=owner)

@@ -17,9 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from electrochip.exception_handlers import *
-from electrochip.settings import DEBUG
-from electrochip.views import *
+from electrochip.exception_handlers import restricted_access_403, page_not_found_404, server_error_500
+from electrochip.views import index, anchor_redirect, blog, about, contact, RestrictedAccessView
 
 urlpatterns = [
     path('', index, name='index'),

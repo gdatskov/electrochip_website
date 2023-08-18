@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="container text-center mt-5">
-        <p>You must be registered user with proper authentication to view this content.</p>
+        <p>You must be registered user with proper authorization to view this content.</p>
         <p>
             <a href="{% url 'index' %}" class="btn btn-primary">Go to Home Page</a>
             {% if not is_authenticated %}

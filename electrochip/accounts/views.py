@@ -77,7 +77,12 @@ class UserProfileView(LoginRequiredMixin, RestrictedAccessMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['full_name'] = get_full_name(self.object)
         context['is_owner'] = self.object == self.request.user
-        context['company'] = Company.objects.get(owner=self.object)
+
+        try:
+            context['company'] = Company.objects.get(owner=self.object)
+        except Company.DoesNotExist:
+            context['company'] = None
+
         return context
 
     def generate_slug(self):
@@ -92,8 +97,7 @@ class EditUserProfileView(LoginRequiredMixin, RestrictedAccessMixin, UpdateView)
 
     def get_object(self):
         # Return the currently logged-in user's profile
-        # print()
-        return self.request.user
+         return self.request.user
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)

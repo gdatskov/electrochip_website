@@ -1,11 +1,23 @@
+from django.contrib.admin import site as admin_site
+from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
 
-from electrochip.accounts.models import AppUser
 from electrochip.services import models as app_models
 from django.db.models import Sum
 from django.shortcuts import render
+
+
+def staff_check(user):
+    return user.is_authenticated and user.is_staff
+
+
+def custom_admin_login(request, **kwargs):
+    if staff_check(request.user):
+        return admin_site.login(request, **kwargs)
+    else:
+        return redirect(reverse('index'))  # Redirect non-staff users to the home page
 
 
 def index(request):

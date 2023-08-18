@@ -1,84 +1,109 @@
 {% extends 'base/base.html' %}
 {% load static %}
 {% block content %}
-    <form method="GET" action="">
-        <div class="search-box">
-            <label>
-                <input type="text" name="q" placeholder="Search services..." value="{{ query|default:'' }}">
-            </label>
-            <input type="hidden" name="category" value="{{ selected_category|default:'' }}">
-            <button type="submit">Search</button>
-        </div>
-    </form>
+    <section class="contact_section layout_padding2-top layout_padding2-bottom" style="background-color: #f4f1fc;">
+        <div class="container">
 
-    <form method="GET" action="">
-        <div class="category-filter">
-            <label for="category">Search in category:</label>
-            <select name="category" id="category" onchange="this.form.submit()">
-                <option value="">All Categories</option>
-                {% for cat in all_categories %}
-                    <option value="{{ cat.pk }}"
-                            {% if selected_category == cat.pk %}
-                            selected
-                            {% endif %}>
-                        {{ cat.name }}
-                    </option>
+            <form method="GET" action="">
+                <div class="search-box">
+                    <label>
+                        <input type="text" name="q" placeholder="Search services..." value="{{ query|default:'' }}"
+                               style="background-color: #eae6f5;">
+                    </label>
+                    <input type="hidden" name="category" value="{{ selected_category|default:'' }}">
+                        <button type="submit">Search</button>
+                </div>
+            </form>
+
+            <form method="GET" action="">
+                <div class="category-filter">
+                    <label for="category">Search in category:</label>
+                    <select name="category" id="category" onchange="this.form.submit()">
+                        <option value="">All Categories</option>
+                        {% for cat in all_categories %}
+                            <option value="{{ cat.pk }}"
+                                    {% if selected_category == cat.pk %}
+                                    selected
+                                    {% endif %}>
+                                {{ cat.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Service Name</th>
+                        <th>Service Description</th>
+                        {% if not selected_category %}
+                            <th>Category</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for service in page_services %}
+                    <tr>
+                        <td>{{ service.row_number }}</td>
+                        <td>
+                            <a href="{% url 'service_details' service.pk %}">{{ service.name }}</a>
+                        </td>
+                        <td>
+                            {{ service.short_description }}
+                        </td>
+                        {% if not selected_category %}
+                            <!-- Display category name only when a specific category is selected -->
+                            <td>
+                                <a href="{% url 'service category' %}?category={{ service.category.pk }}">{{ service.category.name }}</a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="{% if selected_category == '' %}2{% else %}1{% endif %}">
+                            No services found.
+                        </td>
+                    </tr>
                 {% endfor %}
-            </select>
-        </div>
-    </form>
+                </tbody>
+            </table>
 
-    <table class="services-table">
-        <thead>
-        <tr>
-            <th>No.</th>
-            <th>Service Name</th>
-            {% if not selected_category %}
-                <th>Category</th>
-            {% endif %}
-
-        </tr>
-        </thead>
-        <tbody>
-        {% for service in page_services %}
-            <tr>
-                <td>{{ service.row_number }}</td>
-                <td>
-                    <a href="{% url 'service_details' service.pk %}">{{ service.name }}</a>
-                </td>
-                {% if not selected_category %}
-                    <!-- Display category name only when a specific category is selected -->
-                    <td>
-                        <a href="{% url 'service category' %}?category={{ service.category.pk }}">{{ service.category.name }}</a>
-                    </td>
-                {% endif %}
-            </tr>
-        {% empty %}
-            <tr>
-                <td colspan="{% if selected_category == '' %}2{% else %}1{% endif %}">
-                    No services found.
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <div class="pagination">
-        <!-- Display pagination links -->
-        <span class="step-links">
+            <div class="pagination">
+                <!-- Display pagination links -->
+                <span class="step-links">
             {% if page_services.has_previous %}
                 <a href="?page=1">&laquo; first</a>
                 <a href="?page={{ page_services.previous_page_number }}">previous</a>
             {% endif %}
 
-            <span class="current-page">
+                    <span class="current-page">
                 Page {{ page_services.number }} of {{ page_services.paginator.num_pages }}.
             </span>
 
-            {% if page_services.has_next %}
-                <a href="?page={{ page_services.next_page_number }}">next</a>
-                <a href="?page={{ page_services.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
+                    {% if page_services.has_next %}
+                        <a href="?page={{ page_services.next_page_number }}">next</a>
+                        <a href="?page={{ page_services.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
         </span>
-    </div>
+            </div>
+        </div>
+    </section>
+{#    <style>#}
+{#        .custom-table {#}
+{#            border-collapse: collapse; /* Combine adjacent borders into a single border */#}
+{#            width: 100%; /* Set the table width */#}
+{#        }#}
+{##}
+{#        .custom-table th,#}
+{#        .custom-table td {#}
+{#            border: 1px solid #ddd; /* Border color and width */#}
+{#            padding: 8px; /* Cell padding */#}
+{#            text-align: left; /* Text alignment */#}
+{#        }#}
+{#    </style>#}
+
+
 {% endblock %}
