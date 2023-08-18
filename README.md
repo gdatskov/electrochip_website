@@ -8,6 +8,10 @@ https://www.free-css.com/free-css-templates/page294/electrochip
 ## Website concept map:
 ![Concept map](https://github.com/gdatskov/electrochip_website/assets/103522803/340295f8-9b6f-4d96-8cc6-8ef902dcec8a)
 
+## Database diagram
+![Electrochip DB diagram](https://github.com/gdatskov/electrochip_website/assets/103522803/86ed05cb-c8f1-4da4-92dd-8feddcd3c0fc)
+
+
 ### Web pages overview:
 #### Home page
 ![image](https://github.com/gdatskov/electrochip_website/assets/103522803/b2d0de0f-ac29-4e9f-ba71-487c540c3d42)
